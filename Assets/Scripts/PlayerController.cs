@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float gravityModifier;//重力値調整用　privateは省略可能
     [SerializeField] float jumpForce;//ジャンプ力
     [SerializeField] bool isOnGround;//地面についているか
+    [SerializeField] ParticleSystem explosionParticle;
+    [SerializeField] ParticleSystem dirtSplatterParticle;
     public bool gameOver;//何も書かなければprivate
     Animator playerAnim;
 
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         Physics.gravity *= gravityModifier;
         playerAnim = GetComponent<Animator>();
+        dirtSplatterParticle.Play();
     }
 
     // Update is called once per frame
@@ -41,6 +44,8 @@ public class PlayerController : MonoBehaviour
             gameOver = true;//ゲームオーバーにする
             playerAnim.SetBool("Death_b", true);//ここで死亡状態bにする。　(Death_bは本来自分で定義できる）
             playerAnim.SetInteger("DeathType_int", 1);//integerは整数の意味。死亡のタイプを1番目のやつにする的な
+            explosionParticle.Play();
+            dirtSplatterParticle.Stop();
         }
     }
 }
